@@ -1,0 +1,31 @@
+courseLabel=Label(leftFrame,text='Course:',font=('Martian Mono',10,'bold'),bg='white',fg='firebrick1')
+courseLabel.grid(row=3,column=0,sticky='w',padx=25,pady=(10,0))
+coursecombo=ttk.Combobox(leftFrame,width=25,values=('select course','FyBscIT','SyBscIT','TyBscIT','FYBCA','SyBca','TyBca'),font=('Martian Mono',10,'bold'),state='readonly')
+coursecombo.set('Select Course')
+coursecombo.place(x=80,y=154)
+
+
+
+  statusLabel=Label(add_window,text='Attendance',font=('times new roman',15,'bold'))
+    statusLabel.grid(row=5,column=0,sticky=W,padx=30,pady=15)
+    statuscombo=ttk.Combobox(add_window,width=24,values=('Status','Present','Absent'),font=('roman',15,'bold'),state='readonly')
+    statuscombo.set('Status')
+    statuscombo.grid(row=5, column=1, pady=15, padx=10)
+
+    try:
+        con=pymysql.connect(host='localhost',user='root',password='Admin123')
+        mycursor=con.cursor()
+    except:
+        messagebox.showerror('Error','Invalid Details',parent=status)
+        return
+    try:
+        query='use studentdata'
+        mycursor.execute(query)
+        query='create table attendance(sid int not null auto_increment primary key,id int references student(id),status varchar(30),date,current_time)'
+        mycursor.execute(query)
+    except:
+        query='use studentdata'
+        mycursor.execute(query)
+    messagebox.showinfo('Success','Attendance table is created successfully',parent=status)
+
+
